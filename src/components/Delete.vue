@@ -1,20 +1,23 @@
 <template>
-  <div class="delete-form">
-    <input
-      v-model="productId"
-      placeholder="Enter ID"
-      type="number"
-      required
-    />
-    <button @click="handleDelete">Delete Product</button>
+  <div class="container">
+    <div class="delete-form">
+      <input
+        class="delete-input"
+        v-model="productId"
+        placeholder="Enter ID"
+        type="number"
+        required
+      />
+      <button @click="handleDelete">Delete Product</button>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { deleteProduct } from '../services/api';
+import { ref } from "vue";
+import { deleteProduct } from "../services/api";
 
-const productId = ref('');
+const productId = ref("");
 
 const handleDelete = async () => {
   if (!productId.value) {
@@ -27,10 +30,10 @@ const handleDelete = async () => {
 
   try {
     await deleteProduct(productId.value);
-    alert('Product deleted__');
-    productId.value = '';
+    alert("Product deleted__");
+    productId.value = "";
   } catch (error) {
-    alert('Failed to delete.....');
+    alert("Failed to delete.....");
   }
 };
 </script>
@@ -41,7 +44,8 @@ const handleDelete = async () => {
   gap: 10px;
   margin-top: 20px;
 }
-input {
+.delete-input {
+  width: 700px;
   padding: 6px;
 }
 button {
