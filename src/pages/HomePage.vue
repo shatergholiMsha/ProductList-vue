@@ -1,50 +1,42 @@
 <template>
   <div class="container">
-    <AddProducts />
-    <Delete />
     <Table :productList="productArray" />
+    <Delete />
+    <div class="line">
+      <AddProducts />
+      <UpdateProduct :productList="productArray" />
+    </div>
   </div>
 </template>
-
 <script setup>
 import { ref, onMounted } from "vue";
 import Table from "../components/Table.vue";
 import AddProducts from "../components/AddProducts.vue";
+import UpdateProduct from "../components/UpdateProduct.vue";
 import Delete from "../components/Delete.vue";
+import { getProductData } from "../services/api";
 
-const productArray = ref([
-  {
-    id: 1,
-    name: "Apple",
-    description: "Fresh red apple",
-    price: 3.5,
-    category: "test",
-    image: "https://picsum.photos/id/101/100",
-    C_OR_R: "T",
-  },
-  {
-    id: 2,
-    name: "Banana",
-    description: "Ripe bananas",
-    price: 2,
-    category: "test",
-    image: "https://picsum.photos/id/102/100",
-    C_OR_R: "T",
-  },
-  {
-    id: 3,
-    name: "Orange",
-    description: "Juicy oranges",
-    price: 4,
-    category: "test",
-    image: "https://picsum.photos/id/103/100",
-    C_OR_R: "T",
-  },
-]);
+const productArray = ref([]);
+
+onMounted(async () => {
+  try {
+    const res = await getProductData();
+    productArray.value = res;
+  } catch (error) {
+    console.error("Error fetching product data:", error);
+  }
+});
 </script>
 
 <style>
 .container {
   margin: 20px;
+}
+.line {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 30px;
+  align-items: flex-start;
 }
 </style>
